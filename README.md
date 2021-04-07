@@ -28,4 +28,4 @@ All the table that combined in the database and R code that makes an sqlite from
  2) Edit table “Full_DB_April21” with the new genes, if any. 
 3) Edit the table Paper_Summary_April21” to add new study, if any 
 4) Run the R code Populate_DB_April21 to rebuild the database from scratch. Make sure you provide right paths to the tables.
-![image](https://user-images.githubusercontent.com/1798733/113897632-f7b1b400-97c2-11eb-90f4-edd039a5ca19.png)
+
