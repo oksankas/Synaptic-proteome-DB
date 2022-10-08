@@ -299,8 +299,8 @@ dbWriteTable(mydb, "species", species.df,append=TRUE)
 
 ## Brain Regions
 ```{r add.brain.regions, eval = recreate}
-brainReg.df <- read.table("~/Documents/Synaptic proteome paper/db/Up_Oct21/BrainRegions_Oct22.txt", sep = "\t", header = TRUE, stringsAsFactors = FALSE )
-brp <- read.delim("~/Documents/Synaptic proteome paper/db/Up_March2020/BrainRegPapers.txt_Oct22", sep = "\t", header = T, stringsAsFactors = FALSE)
+brainReg.df <- read.table("BrainRegions_Oct22.txt", sep = "\t", header = TRUE, stringsAsFactors = FALSE )
+brp <- read.delim("BrainRegPapers_Oct22.txt", sep = "\t", header = T, stringsAsFactors = FALSE)
 idxBR <- match(brp$Name, brainReg.df$Name)
 
 dbWriteTable(mydb, "BrainRegion", brainReg.df,append=TRUE)
@@ -309,7 +309,7 @@ dbWriteTable(mydb, "BrainRegion", brainReg.df,append=TRUE)
 ## SpecieRegion
 
 ```{r Specie.Region}
-sbr <- read.delim("~/Documents/Synaptic proteome paper/db/Up_Oct21/BrainRegionSpecie_Oct22.txt", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+sbr <- read.delim("BrainRegionSpecie_Oct22.txt", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 dbWriteTable(mydb, "SpecieRegion", sbr,append=TRUE)
 
 ```
@@ -332,8 +332,8 @@ dbWriteTable(mydb, "localisation", loc.df,append=TRUE)
 ## Papers
 ```{r prepare.papers}
 #papers<-read.delim("Paper_DB_summary.txt",sep='\t',header = TRUE, stringsAsFactors = FALSE)
-papers<-read.delim("~/Documents/Synaptic proteome paper/db/Up_Oct21/Paper_DB_summary_Oct22.txt",sep='\t',header = TRUE, stringsAsFactors = FALSE)
-pmed <- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/pubmed.data.full_Oct22.csv", stringsAsFactors = FALSE)
+papers<-read.delim("Paper_DB_summary_Oct22.txt",sep='\t',header = TRUE, stringsAsFactors = FALSE)
+pmed <- read.csv("pubmed.data.full_Oct22.csv", stringsAsFactors = FALSE)
 any(papers$PubMed %in% pmed$PMID)
 pmed.df <- unique(pmed[,c("PMID", "Year","name")])
 names(pmed.df) <- c("PMID","Year","Name")
@@ -359,7 +359,7 @@ dbWriteTable(mydb, "paper", p.df,append=TRUE)
 ## Genes
 ### Genes table
 ```{r full.genes}
-full <- read.delim("~/Documents/Synaptic proteome paper/db/Up_Oct21/Full_DB_Rat_Oct22.txt", sep = "\t", header = T, stringsAsFactors = FALSE)
+full <- read.delim("Full_DB_Rat_Oct22.txt", sep = "\t", header = T, stringsAsFactors = FALSE)
 full$ID<-1:dim(full)[1]
 fg.df<- full[,c(dim(full)[2],1:7)]
 names(fg.df)<-c('ID',
@@ -382,7 +382,7 @@ fg.df$surkey<-paste(fg.df$MouseEntrez,
 
 ```{r prepare.postsynaptic, eval=recreate}
 #gene1<-read.delim("PSD_db_Sept19.txt",sep ='\t',header=TRUE, stringsAsFactors = FALSE)
-gene1<-read.delim("~/Documents/Synaptic proteome paper/db/Up_Oct21/PSD_db_Oct22.txt",sep ='\t',header=TRUE, stringsAsFactors = FALSE)
+gene1<-read.delim("PSD_db_Oct22.txt",sep ='\t',header=TRUE, stringsAsFactors = FALSE)
 gene1 <- gene1[, -c(dim(gene1)[2])]
 g1.df<-gene1[,1:5]
 names(g1.df)<-c('mgi',
@@ -414,7 +414,7 @@ mag1 <-do.call(rbind,l)
 
 ### Presynaptic
 ```{r prepare.presynaptic, eval = recreate}
-gene2<-read.delim("~/Documents/Synaptic proteome paper/db/Up_Oct21/Pres_DB_Oct22.txt",sep ='\t',header=TRUE, stringsAsFactors = FALSE)
+gene2<-read.delim("Pres_DB_Oct22.txt",sep ='\t',header=TRUE, stringsAsFactors = FALSE)
 gene2 <- gene2[, -c(dim(gene2)[2])]
 g2.df<-gene2[,c("MGI.ID",
                 "MOUSE.ENTREZ.ID",
@@ -450,7 +450,7 @@ mag2 <-do.call(rbind,l)
 
 ### Synaptosome
 ```{r prepare.synaptosome, eval = recreate}
-gene3<-read.delim("~/Documents/Synaptic proteome paper/db/Up_Oct21/Syn_DB_Oct22.txt",sep ='\t',header=TRUE, stringsAsFactors = FALSE)
+gene3<-read.delim("Syn_Oct22.txt",sep ='\t',header=TRUE, stringsAsFactors = FALSE)
 g3.df<-gene3[,1:4]
 names(g3.df)<-c('mouseentrez',
                 'mousename',
@@ -498,7 +498,7 @@ dbWriteTable(mydb, "papergene", totGene,append=TRUE)
 # PPI
 ```{r load.ppi}
 #ppi.df<-read.delim("PPI_DB_Homo.txt",sep = "\t", header = TRUE, stringsAsFactors = FALSE)
-ppi.df<-read.delim("~/Documents/Synaptic proteome paper/db/Up_Oct21/PPI_DB_Oct21.txt",sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+ppi.df<-read.delim("PPI_DB_Oct22.txt",sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 idxA<-match(ppi.df$entA,fg.df$HumanEntrez)
 idxB<-match(ppi.df$entB,fg.df$HumanEntrez)
 ppi.df$A<-fg.df$ID[idxA]
@@ -634,7 +634,7 @@ dbWriteTable(mydb, "GOGene", mfr.t, append=TRUE)
 ```
 # Disease
 ```{r Add.disease}
-hdo <- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_human_HDO.csv", sep = "\t", header = FALSE, stringsAsFactors = FALSE)
+hdo <- read.csv("flatfile_human_HDO.csv", sep = "\t", header = FALSE, stringsAsFactors = FALSE)
 hdo <- hdo[, c(1,2)]
 hdoU <- unique(hdo)
 names(hdoU) <- c("HDOID","Description")
@@ -644,7 +644,7 @@ dbWriteTable(mydb, "Disease", hdoU, append=TRUE)
 # DiseaseGene
 
 ```{r add.diseaseGene}
-hdo <- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_human_HDO.csv", sep = "\t", header = FALSE, stringsAsFactors = FALSE)
+hdo <- read.csv("flatfile_human_HDO.csv", sep = "\t", header = FALSE, stringsAsFactors = FALSE)
 idx <- match(hdo$V3, fg.df$HumanEntrez)
 hdo$GeneID <- fg.df$ID[idx]
 hdog <- hdo[, c(4,1)]
@@ -655,7 +655,7 @@ dbWriteTable(mydb, "DiseaseGene", hdog, append=TRUE)
 # GeneToModel
 
 ```{r add.model}
-gm <- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/genes-in-models.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
+gm <- read.csv("genes-in-models.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
 idx <- match(gm$ENTREZ.ID, fg.df$HumanEntrez)
 gm$GeneID <- fg.df$ID[idx]
 gmg <- gm[!is.na(gm$GeneID),]
@@ -667,7 +667,7 @@ dbWriteTable(mydb, "GeneToModel", gmgg, append=TRUE)
 ## Autism related mutation
 Gene table contains two copies of GSTM1 HLA-A, so we decided that mapping of first row to mutations will be enough for our purposes.
 ```{r load.mut.table}
-mut <- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/Mut_ASD_combined.csv", stringsAsFactors = FALSE)
+mut <- read.csv("ASD_mut_combined_Oct22.txt", stringsAsFactors = FALSE)
 idx <- match(mut$Gene, fg.df$HumanName)
 mut$GeneID <- fg.df$ID[idx]
 mut$HDOID <- "DOID:0060041"
