@@ -283,7 +283,9 @@ dbSendStatement(mydb,ddlV4)
 # Populate database
 ## Method
 ```{r add.methods, eval=recreate}
-method.df<-data.frame(ID=1:2,name=c("Shotgun","Target"),description=c("Shotgun","Target"))
+method.df<-data.frame(ID=1:2,
+                      name=c("Shotgun","Target"),
+                      description=c("Shotgun","Target"))
 dbWriteTable(mydb, "method", method.df,append=TRUE)
 ```
 
