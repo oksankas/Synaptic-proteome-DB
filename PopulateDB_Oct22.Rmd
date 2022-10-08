@@ -556,10 +556,9 @@ idxA<-match(ppi.df$entA,fg.df$HumanEntrez)
 idxB<-match(ppi.df$entB,fg.df$HumanEntrez)
 ppi.df$A<-fg.df$ID[idxA]
 ppi.df$B<-fg.df$ID[idxB]
-ppi.df$taxId<-ppi.df$taxA
 ppi.df$ID<- 1:dim(ppi.df)[1]
-ppi.t<-ppi.df[,c('ID','A','B','type','method','taxId')]
-names(ppi.t)<-c('ID','A','B','type','method','taxID')
+ppi.t<-ppi.df[,c('ID','A','B','type','method')]
+names(ppi.t)<-c('ID','A','B','type','method')
 dbWriteTable(mydb, "ppi", ppi.t,append=TRUE)
 ```
 
