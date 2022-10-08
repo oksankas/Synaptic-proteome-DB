@@ -1,0 +1,64 @@
+Name	Annotated	Short description	Count	Species	PubMed	Year	shotgun	Brain region	Method	Description
+HUSI_2000	OS	PSD (NMDAR multiprotein complexes (NRC) )	77	mouse	10862698	2000	YES	forebrain	LC–MS/MS +  immunoblotting	NMDAR multiprotein complexes (NRC) 
+WALIKONIS_2000	MC	PSD	29	rat	10818142	2000	YES	forebrain	MALDI-TOF-MS and SDS-PAGE	Forebrain PSD
+PENG_2002	MC	PSD	327	rat	15020595	2004	YES	forebrain	liquid chromatography and LC-MS/MS	Forebrain PSD
+SATON_2002	MC	PSD	45	mouse	11895482	2002	YES	forebrain	2D LC/MS/MS	Forebrain PSD
+YOSHIMURA_2004	MC	PSD	436	rat	14720225	2004	YES	forebrain	2000	Forebrain PSD
+FARR_2004	OS&CM	MGLUR5	73	rat	15447677	2004	NO	whole brain	co IP	mGluR5 interacting complex (co IP)
+JORDAN_2004	MC	PSD	393	mouse	15169875	2004	YES	whole brain	nanoflow HPLC and LC-MS/MS	Brain PSD
+LI_2004	MC	PSD	139	rat	14532281	2004	YES	forebrain	"2D gel/ICAT and matrix-assisted laser desorption ionization–time of flight, LC–MS/MS"	Brain PSD
+TRINIDAD_2005	MC	PSD	236	mouse	15748150	2005	YES	whole brain (excluding the cerebellum and brain stem)	Nano-LC–ESI–QTOF MS/MS	Forebrain PSD
+CHENG_2006	MC	CHENG	289	rat	16507876	2006	YES	forebrain and cerebellum	LC-MS/MS	43 proteins exhibiting statistically significant abundance change between forebrain and cerebellum; utilized absolute quantification strategy to measure molar abundance of 32 key PSD proteins in forebrain and cerebellum.
+COLLINS_2006	MC & OS	PSD	620	mouse	16635246	2006	NO	forebrain	1D SDS–PAGE and LC–MS/MS	G2C PSD data set
+DOSEMESI_2006	MC	PSD	114	rat	16332460	2006	YES	hippocampus	2D LC/MS/MS	PSD from hippocampal slices
+DOSEMESI_2007	MC	PSD	488	rat	17623647	2007	YES	cerebral cortex	LC-MS/MS	Cortex PSD
+TRINIDAD_2008	MC	PSD	2158	mouse	18056256	2008	YES	"cortex, midbrain, cerebellum, and hippocampus"	Nano-LC–ESI–QTOF MS/MS	"PSD relative quantification of expression and phosphorylation status from: cortex, hippocampus, midbrain, cerebellum"
+SELIMI_2009	MC	PSD	63	mouse	19402746	2009	YES	cortex	"1-D SDS-PAGE, matrix-assisted laser desorption/ionization (MALDI) quadrupole/time-of-flight (QqTOF) MS and MALDI ion trap (MALDI-IT) tandem MS (MS/MS)"	PSD from parallel fiber/purkinje cell synapse
+FERNANDEZ_2009	MC	TAP-PSD-95-CORE	294	mouse	19455133	2009	NO	forebrain	"TAP tag, LC-MS/MS"	TAP-PSD-95 pull-down core list
+BAYES_2011	MC	CONSENSUS PSD	1443	human	21170055	2010	YES	cortex	LC–MS/MS	Human neocortex (hPSD) biopsy PSD consensus
+BAYES_2012	MC	CONSENSUS PSD	1552	mouse	23071613	2012	YES	cortex	LC–MS/MS	Cortex PSD consensus
+SCHWENK_2013	MC	AMPA	34	mouse	22632720	2013	NO	whole brain	"multiepitope and target knockout-controlled affinity purifications (ME-APs), blue native polyacrylamide gel electrophoresis (BN-PAGE) and nano-LC MS/MS"	AMPA receptor complex
+DISTLER_2014	OS&CM	PSD+P2	2102	mouse	25211037	2014	YES	hippocampus	"LS/MS-MS with  DMSE, ISOQuant (This approach utilizes ion mobility drift time-specific collision-energy profiles to enhance precursor fragmentation efficiency over current MS(E) and high-definition (HD) MS(E) data-independent acquisition techniques PMID: 24336358)"	"totareference proteome of crude synaptosomes, synaptic junctions, and PSD derived from mouse hippocampus including TOP3-based absolute quantification values for identified proteins; 2102 protein groups were identified in highly purified PSD in at least two biological replicatesl"
+BAYES_2014	OS&CM	PSD	1134	human	25429717	2014	YES	frontal cortex	SDS-PAGE and nanoLC-MS/MS	PSD (post-mortem neocortex samples and biopsy tissue)
+UEZU_2016	OS	PSD	928	mouse	27609886	2016	NO	cortex	in vivo affinity purification approach BioID (iBioID) + streptavidin-based affinity purification and mass spectrometry (MS)	"pilot iPSD: BirA, PSD95-BirA, gephyrin- BirA"
+FOCKING_2016	OS	PSD	2021	human	27898073	2016	YES	whole brain 	Unbiased shotgun proteomics incorporating label-free quantitation 	PSD in bipolar disorder
+LI_2016	OS	PSD	1602	mouse	27507650	2016	YES	hippocampus CA1	HPLC-MS/MS	LTP stimuated PSD proteins frommouse hippocampus CA1 region
+FERNANDEZ_2017	OS&CM	PSD	107	mouse	29045836	2017	NO	forebrain	"tandem affinity purification (TAP) tag , HPLC-MS/MS"	ARC complex
+ROY_2017	OS	PSD	1213	human	29203896	2017	YES	"frontal, parietal, temporal and occipital lobes of the neocortex, focusing on 12 BAs "	HPLC-MS/MS	PSD across 12 brain regions
+LI_2017	OS	PS	993	mouse	28671696	2017	YES	hippocampus CA1	HPLC-MS/MS	"DLG4, DLGAP1, SHANK3, TNIK interactors"
+ROY_2018	OS	PSD	1071	mouse	30071621	2018	YES	"frontal, medial and caudal cortex, right caudate putamen, right hippocampus, whole hypothalamus, and cerebellum (right half)"	LC–MS/MS	PSD from 7 brain regions 
+WILSON_2019	OS&CM	PSD	2134	mouse	30986977	2019	YES	Cortex	"targeted, high-mass-accuracy quantitative LC–MS/MS; data-independent analysis (DIA); the PRM assay, heavy labeled peptides were synthesized and used as internal standards for accurate protein quantitation. "	
+COUGHENOUR_2004	OS&CM	SYNAPTIC VESICLE (PRESYNAPTIC)	36	rat	15378707	2004	YES	forebrain	1) IEF/SDS-PAGE for resolution of soluble proteins; 2)  Benzyl hexadecyl ammonium chloride/SDS-PAGE (16-BAC/SDS-PAGE) for resolutionof integral membrane proteins + MS/MS	
+BLONDEAU_2004	OS&CM	CLATHRIN COTED VESICLES (CCV)	209	rat	15007177	2004	YES	whole brain	1D SDS/PAGE + MS/MS	brain CCV
+PHILLIPS_2005	OS&CM	PRESYNAPTIC PARTICLE FRACTION (PPF)	110	rat	16047384	2005	YES	cortex	"multidimensional protein identification technology (MudPIT, Washburn et al., 2001)"	PPF consists of presynaptic proteins not connected to the actin_based synaptic framework; its insolubility in pH 6 and solubility in pH 8 buffered detergent suggests that clathrin might be an anchorage scaffold for many proteins in the PPF.
+MORCIANO_2005	OS&CM	SYNAPTIC VESICLE and PLASMA MEMBRANE  (PRESYNAPTIC)	153/85	rat	16269012	2005	YES	whole brain	"Co-IP with SV2 to isolate SVs, MALDI-TOF-MS and 2D BAC/SDS–PAG"	Synaptic vesicle proteins from nerve terminal proteome
+BURRE_2006	OS&CM	SYNAPTIC VESICLE (PRESYNAPTIC)	165	rat	17080482	2006	YES	whole brain	"1-D SDS-PAGE & nano-LC ESI-MS/MS, or 2-D SDS-PAGE & (BAC)/SDS-PAGE, or SDS (dSDS)-PAGE & MALDI-TOF-MS"	Synaptic vesicle proteins
+TAKAMORI_2006	OS&CM	SYNAPTIC VESICLE (PRESYNAPTIC)	410	rat	17110340	2006	YES	cerebral cortex	MS & 16-BAC/SDS-PAGE & 1D SDS-PAGE	Protein and lipid composition of synaptic vesicles
+KHANNA_2007	OS&CM	PRESYNAPTIC TERMINAL	104	rat	17562281	2007	NO	whole brain	IP + MS/MS	N type calcium channel (CaV2.2/CACNA1B) binding partners
+MORCIANO_2009	OS&CM	SYNAPTIC VESICLE (PRESYNAPTIC)	369	rat	19187093	2009	YES	whole brain	"IP with SV2 to fractionate the active zone with SVs, MALDI-TOF-MS, nanoLC ESI MS/MS and 2D BAC/SDS–PAGE"	Using a monoclonal antibody against synaptic vesicle protein 2 we immunopurified a presynaptic compartment containing the active zone with synaptic vesicles docked to the presynaptic plasma membrane as well as elements of the presynaptic cytomatrix
+ABUL_HUSN_2009	OS&CM	PRESYNAPTIC (PRE) nerve terminal	159	mouse	19562802	2009	YES	hippocampus and striatum	Capillary-HPLC-MS/MS 	Hippocampus and striatum Presynaptic proteome
+ABUL_HUSN_2011	OS&CM	PRESYNAPTIC (PRE)	145	rat	22043286	2011	YES	striatum	MS/MS	Striatum ofcaline and morphine treated mice
+GORINI_2010	OS&CM	SYNAPTIC VESICLE (PRESYNAPTIC)	57/49	mouse	20114047	2010	NO	cortex	"CO-IP, MALDI-TOF-MS and MASCOT"	"Presynaptic vesicle recycling: We used co-immunoprecipitation followed by mass spectrometry or western blotting to investigate the synaptic protein network for the candidate proteins BKCa, dynamin-1, SNAP-25, syntaxin-1A, and VAMP-2"
+GRONBORG_2010	OS&CM	SYNAPTIC VESICLE (PRESYNAPTIC)	618	rat	20053882	2010	YES	cerebral cortex	"ICAT SCX, iTRAQ"	Synaptic vesicle proteome (glutamargetic and GABA synapses)
+BOYKEN_2013	OS&CM	PRESYNAPTIC VESICLE	414	rat	23622064	2013	YES	cerebral cortex	"LS/MS-MS, iTRAQ"	Synaptic vesicle docking and endocytosis
+WILHELM_2014	OS&CM	SYNAPTIC VESICLE (PRESYNAPTIC)	1169	rat	24876496	2014	YES	cortex and cerebellum	quantitative immunoblotting  and LS/MS-MS	"Synaptic vesicle cycle proteins from synaptic buttons, synaptosome compartmentalised"
+BRINKMALM_2014	OS&CM	PRESYNAPTIC	68	mouse	24973420	2014	NO	hippocampus	IP with SNAP 25 and LC-MS/MS)	Presynaptic (SNARE complex)in AD
+WEINGARTEN_2014	OS&CM	SYNAPTIC VESICLE (PRESYNAPTIC)	482	mouse	24534009	2014	YES	whole brain	"CoIP with SV2, SDS–PAGE and LC–MS/MS"	Presynaptic active zone
+KOKOTOS_2018	OS&CM	PRESYNAPTIC (ADBE)	983	rat	30301801	2018	YES	Primary cultures of cerebellar granule neurons (CGNs) 	Enriched bulk endosomes (two methods) followed by LC-MS/MS analysis.	"Primary cultures of cerebellar granule neurons (CGNs), Activity-dependent bulk endocytosis (ADBE)"
+TAOUFIQ_2020	OS&CM	PRESYNAPTIC (SV) + P2'	1466	rat	33376223	2020	YES	whole brain	ERLIC prior to hydrophobicity-based reverse-phase chromatography (RPC) + MS + Proteome Discoverer software v2.1 (Thermo Scientific) and Mascot 2.6 (Matrix Science) 	differentiating “SV-resident” (low abundance) from “SV-visitor” proteins
+WITTIG_2021	OS	PRESYNAPTIC (PRE)	1012	rat	33558502	2021	YES	whole brain	"LS/MS-MS, iTRAQ"	V-ATPase complex
+FILIOU_2010	OS&CM	SYNAPTOSOME	2980	mouse	20309889	2010	YES	whole brain	Isoelectric focusing (IEF) and MS	Synaptosome and phosphoproteome
+DAHlHAUS_2011	OS&CM	SYNAPTOSOME	673	mouse	21398567	2011	YES	visual cortex	MALDI-MS and iTRAQ	Synaptic proteome from mouse visual cortex
+COCHEN_2013	OS&CM	SYNAPTOSOME	2668	rat	23658807	2013	YES	cortical neurons primary culture	"Stable Isotope Labeling with Amino acids in Cell culture (SILAC), mass spectrometry (MS), Fluorescent Non-Canonical Amino acid Tagging (FUNCAT)"	Synaptic protein turnover rates
+BIESEMANN_2014	OS&CM	SYNAPTOSOME	163	mouse	24413018	2014	YES	forebrain	"Fluorescence Activated Synaptosome Sorting (FASS), LS/MS-MS, Mascot"	"VGLUT1VENUS knock-in mice,  glutamargetic synaptosomes"
+CHANG_2015	OS&CM	SYNAPTOSOME	2077	human	25958317	2015	YES	hippocampus and motor cortex	SCX fractionation with SWATH analysis	Synaptic proteome from hyppocampus and motor cortex in autopsy brain for Alzheimer's disease and control
+LIU_2014	OS&CM	Kinesin complexes (Kif5c and Kif3a)	1388	mouse	25352669	2014	NO	hippocampus and prefrontal cortex	co-IP +iD SDS-PAGE + LS-MS	Kif5C kinesin complex from hippocampus and prefrontal cortex (PFC) and the Kif3A kinesin complex from hippocampus
+KOHANSAL_NODEHI_2016	OS&CM	SYNAPTIC MEMBRANE	4961	rat	27115346	2016	YES	cerebral cortex and cerebellum	"LS/MS-MS with  DMSE, MAXQuant"	presynaptic phosphoproteome from brain cortex
+GONZALEZ_LOZANO_2016	OS&CM	SYNAPTOSOME	1560	mouse	27748445	2016	YES	cortex	"iTRAQ labeling, LS/MS-MS "	"cortical synaptic membrane proteome of juvenile postnatal days 9 (P9), P15, P21, P27, adolescent (P35) and different adult ages P70, P140 and P280 of C57Bl6/J mice."
+ALFIERI_2017	OS&CM	p140CAP  (SYNAPTOSOME)	351	mouse	28713243	2017	NO	telencephalon	Co IP	p140 complex
+HEO_2018	OS&CM	SYNAPTOSOME	2272	mouse	29610302	2018	YES	cortex and hippocampus	"Metabolic labeling of mice with heavy isotope (SILAM), SDS/PAGE, MS/MS"	Synaptososme protein turnover
+KOOPMANS_2018	OS	SYNAPTOSOME	3630	"mouse, rat, human"	30333727	2018	YES	hippicampus	SWATH mass spectrometry	sensitive comparative analysis of the hippocampal synaptic proteome of four species
+GRAHAM_2019	OS	SYNAPTOSOME	1570	human	31018120	2019	YES	hippocampus and occipital cortext	LC–MS/MS	"region and aging heterogeneity: young (18-25 years), mid-age (40-50 years) or old age (70+ years), with 4 samples per time point."
+GONZALEZ_LOZANO_2020	OS	SYNAPTOSOME	2380	mouse	32128395	2020	YES	hippicampus and cerebellum	MS/MS	synaptosomes (widely synapse enriched) and microsomes (membrane enriched for proteins involved in assembly and trafficking)
+DISTLER_2020	OS	SYNAPTOSOME	3022	mouse	32012899	2020	YES	"prefrontal cortex, hippocampus, striatum and cerebellum"	LC-MS/MS; ISOQuant	"prefrontal cortex, hippocampus, striatum and cerebellum of male and female adult C57BL/6J mice;region-specific set of novel synaptic proteins differentially expressed between male and female individuals including the strong ASD candidates"
+APOSTOLO_2020	OS	SYNAPTOSOME	3592	mouse	33057002	2020	YES	hippicampus	LC–MS/MS	"synapse type-specific proteomics:MF(mossy fiber)-CA3 synapses, MF vs P2 synaptosome; CSP (cell surface proteins) composition of MF synapse"

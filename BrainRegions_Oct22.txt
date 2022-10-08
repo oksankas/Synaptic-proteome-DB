@@ -1,0 +1,19 @@
+ID 	Name	InterlexID	Description	ParentID
+1	Brain	ILX:0101431	Whole brain	1
+2	Forebrain	ILX:0104355	Whole forebrain	1
+3	Midbrain	ILX:0106935	Midbrain	1
+4	Cerebellum	ILX:0101963	Cerebellum	1
+5	Telencephalon	ILX:0111558	Telencephalon	2
+6	Hypothalamus	ILX:0105177	Hypothalamus	2
+7	Hippocampus	ILX:0105021	Hippocampus	5
+8	Striatum	ILX:0111098	Striatum	5
+9	Cerebral cortex	ILX:0101978	Neocortex	5
+10	Frontal lobe	ILX:0104451	Frontal lobe/frontal cortex	9
+11	Occipital lobe	ILX:0107883	Occipital lobe	9
+12	Temporal lobe	ILX:0111590	Temporal lobe	9
+13	Parietal lobe	ILX:0108534	Parietal lobe	9
+14	Prefrontal cortex	ILX:0109209	Prefrontal cortex	10
+15	Motor cortex	ILX:0107119	Motor cortex	10
+16	Visual cortex	ILX:0112513	Visual cortex	11
+17	Medial cortex	ILX:0106634	Medial cortex	9
+18	Caudal cortex	NA	Caudal cortex	9
