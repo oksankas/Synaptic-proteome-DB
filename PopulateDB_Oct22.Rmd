@@ -137,6 +137,7 @@ ddlGOGene <- paste("CREATE TABLE GOGene (",
 "  GeneID   integer(10) NOT NULL, ",
 "  SpecieID integer(10) NOT NULL, ",
 "  GOID     varchar(255) NOT NULL, ",
+"  Evidence varchar(255) NOT NULL, ",
 "  FOREIGN KEY(GeneID) REFERENCES Gene(ID), ",
 "  FOREIGN KEY(SpecieID) REFERENCES Species(TaxID), ",
 "  FOREIGN KEY(GOID) REFERENCES GO(GOID));")
@@ -574,115 +575,71 @@ length(which(is.na(pmidx)))
 ```
 
 # GO
+```{r prepare.GO.hs}
+orgDB<-org.Hs.eg.db
+keytype <- "ENTREZID"
+keys<-fg.df$HumanEntrez
+keys<-as.character(keys[!is.na(keys)])
+on <- AnnotationDbi::select(orgDB, keys,
+                            columns = c("GO",'ONTOLOGY'),
+                            keytype = keytype)
+gogene.hs<-unique(on[,c('ENTREZID','GO','EVIDENCE')])
+names(gogene.hs)<-c('GeneID','GOID','Evidence')
+gogene.hs$SpecieID<-9606
+
+go.hs<-AnnotationDbi::select(GO.db,
+                           unique(on$GO),
+                           column=c('TERM',"ONTOLOGY"),
+                           keytype='GOID')
+names(go.hs)<-c('GOID','Term','Domain')
+```
+
+```{r prepare.GO.mm}
+orgDB<-org.Mm.eg.db
+keytype <- "ENTREZID"
+keys<-fg.df$MouseEntrez
+keys<-as.character(keys[!is.na(keys)])
+on <- AnnotationDbi::select(orgDB, keys,
+                            columns = c("GO",'ONTOLOGY'),
+                            keytype = keytype)
+gogene.mm<-unique(on[,c('ENTREZID','GO','EVIDENCE')])
+names(gogene.mm)<-c('GeneID','GOID','Evidence')
+gogene.mm$SpecieID<-10090
+go.mm<-AnnotationDbi::select(GO.db,
+                           unique(on$GO),
+                           column=c('TERM',"ONTOLOGY"),
+                           keytype='GOID')
+names(go.mm)<-c('GOID','Term','Domain')
+```
+
+```{r prepare.GO.rn}
+orgDB<-org.Rn.eg.db
+keytype <- "ENTREZID"
+keys<-fg.df$RatEntrez
+keys<-as.character(keys[!is.na(keys)])
+on <- AnnotationDbi::select(orgDB, keys,
+                            columns = c("GO",'ONTOLOGY'),
+                            keytype = keytype)
+gogene.rn<-unique(on[,c('ENTREZID','GO','EVIDENCE')])
+names(gogene.rn)<-c('GeneID','GOID','Evidence')
+gogene.rn$SpecieID<-10116
+go.rn<-AnnotationDbi::select(GO.db,
+                           unique(on$GO),
+                           column=c('TERM',"ONTOLOGY"),
+                           keytype='GOID')
+names(go.rn)<-c('GOID','Term','Domain')
+```
+
 ```{r load.GO}
-bph <- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_Human_BP.csv", sep = "\t", header = FALSE)
-bpm <- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_Mouse_BP.csv", sep = "\t", header = FALSE)
-bpr <- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_Rat_BP.csv", sep = "\t", header = FALSE)
-BP <- rbind(bph[, c(1,2)], bpm[, c(1,2)], bpr[, c(1,2)])
-BP <- unique(BP)
-names(BP) <- c("GOID", "Description")
-BP$Domain <- "BP"
-cch <- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_Human_CC.csv", sep = "\t", header = FALSE)
-ccm <- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_Mouse_CC.csv", sep = "\t", header = FALSE)
-ccr <- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_Rat_CC.csv", sep = "\t", header = FALSE)
-CC <- rbind(cch[, c(1,2)], ccm[, c(1,2)], ccr[, c(1,2)])
-CC <- unique(CC)
-names(CC) <- c("GOID", "Description")
-CC$Domain <- "CC"
-mfh <- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_Human_MF.csv", sep = "\t", header = FALSE)
-mfm <- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_Mouse_MF.csv", sep = "\t", header = FALSE)
-mfr <- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_Rat_MF.csv", sep = "\t", header = FALSE)
-MF <- rbind(mfh[, c(1,2)], mfm[, c(1,2)], mfr[, c(1,2)])
-MF <- unique(MF)
-names(MF) <- c("GOID", "Description")
-MF$Domain <- "MF"
-df.go <- rbind(BP,CC,MF)
+df.go <- unique(rbind(go.hs,go.mm,go.rn))
 dbWriteTable(mydb, "GO", df.go, append=TRUE)
 
 ```
 # GoGene
 ```{r load.GoGene}
-bph<- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_Human_BP.csv", sep = "\t", header = FALSE)
-bph$SpecieID <- "9606"
-idx <- match(bph$V3,fg.df$HumanEntrez)
-bph$GeneID <- fg.df$ID[idx]
-bph.t <- bph[, c(5,4,1)]
-head(bph.t)
-names(bph.t) <- c("GeneID", "SpecieID","GOID")
+gogene<-unique(rbind(gogene.hs,gogene.mm,gogene.rn))
+gogene<-gogene[,c("GeneID", "SpecieID","GOID","Evidence")]
 dbWriteTable(mydb, "GOGene", bph.t, append=TRUE)
-
-bpm<- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_Mouse_BP.csv", sep = "\t", header = FALSE)
-bpm$SpecieID <- "10090"
-idx <- match(bpm$V3,fg.df$MouseEntrez)
-bpm$GeneID <- fg.df$ID[idx]
-bpm.t <- bpm[, c(5,4,1)]
-head(bpm.t)
-names(bpm.t) <- c("GeneID", "SpecieID","GOID")
-dbWriteTable(mydb, "GOGene", bpm.t, append=TRUE)
-
-bpr<- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_Rat_BP.csv", sep = "\t", header = FALSE)
-bpr$SpecieID <- "10116"
-idx <- match(bpr$V3,fg.df$RatEntrez)
-bpr$GeneID <- fg.df$ID[idx]
-bpr.t <- bpr[, c(5,4,1)]
-head(bpr.t)
-names(bpr.t) <- c("GeneID", "SpecieID","GOID")
-dbWriteTable(mydb, "GOGene", bpr.t, append=TRUE)
-
-cch<- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_Human_CC.csv", sep = "\t", header = FALSE)
-cch$SpecieID <- "9606"
-idx <- match(cch$V3,fg.df$HumanEntrez)
-cch$GeneID <- fg.df$ID[idx]
-cch.t <- cch[, c(5,4,1)]
-head(cch.t)
-names(cch.t) <- c("GeneID", "SpecieID","GOID")
-dbWriteTable(mydb, "GOGene", cch.t, append=TRUE)
-
-ccm<- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_Mouse_CC.csv", sep = "\t", header = FALSE)
-ccm$SpecieID <- "10090"
-idx <- match(ccm$V3,fg.df$MouseEntrez)
-ccm$GeneID <- fg.df$ID[idx]
-ccm.t <- ccm[, c(5,4,1)]
-head(ccm.t)
-names(ccm.t) <- c("GeneID", "SpecieID","GOID")
-dbWriteTable(mydb, "GOGene", ccm.t, append=TRUE)
-
-ccr<- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_Rat_CC.csv", sep = "\t", header = FALSE)
-ccr$SpecieID <- "10116"
-idx <- match(ccr$V3,fg.df$RatEntrez)
-ccr$GeneID <- fg.df$ID[idx]
-ccr.t <- ccr[, c(5,4,1)]
-head(ccr.t)
-names(ccr.t) <- c("GeneID", "SpecieID","GOID")
-dbWriteTable(mydb, "GOGene", ccr.t, append=TRUE)
-
-mfh<- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_Human_MF.csv", sep = "\t", header = FALSE)
-mfh$SpecieID <- "9606"
-idx <- match(mfh$V3,fg.df$HumanEntrez)
-mfh$GeneID <- fg.df$ID[idx]
-mfh.t <- mfh[, c(5,4,1)]
-head(mfh.t)
-names(mfh.t) <- c("GeneID", "SpecieID","GOID")
-dbWriteTable(mydb, "GOGene", mfh.t, append=TRUE)
-
-mfm<- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_Mouse_MF.csv", sep = "\t", header = FALSE)
-mfm$SpecieID <- "10090"
-idx <- match(mfm$V3,fg.df$MouseEntrez)
-mfm$GeneID <- fg.df$ID[idx]
-mfm.t <- mfm[, c(5,4,1)]
-head(mfm.t)
-names(mfm.t) <- c("GeneID", "SpecieID","GOID")
-dbWriteTable(mydb, "GOGene", mfm.t, append=TRUE)
-
-mfr<- read.csv("~/Documents/Synaptic proteome paper/db/Up_Oct21/flatfile_Rat_MF.csv", sep = "\t", header = FALSE)
-mfr$SpecieID <- "10116"
-idx <- match(mfr$V3,fg.df$RatEntrez)
-mfr$GeneID <- fg.df$ID[idx]
-mfr.t <- mfr[, c(5,4,1)]
-head(mfr.t)
-names(mfr.t) <- c("GeneID", "SpecieID","GOID")
-dbWriteTable(mydb, "GOGene", mfr.t, append=TRUE)
-
 ```
 # Disease
 ```{r Add.disease}
