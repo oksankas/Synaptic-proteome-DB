@@ -318,7 +318,7 @@ dbWriteTable(mydb, "SpecieRegion", sbr,append=TRUE)
 
 ## Localisation
 ```{r add.location, eval=recreate}
-loc.df<-data.frame(ID=1:3,
+loc.df<-data.frame(ID=1:4,
                    Name=c("Postsynaptic",
                           "Presynaptic",
                           "Synaptosome",
