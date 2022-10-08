@@ -117,7 +117,7 @@ ddlPPI<-paste("CREATE TABLE PPI (",
 "  type   varchar(255) NOT NULL, ",
 "  method varchar(255) NOT NULL, ",
 #"  pmid   integer(10), ",
-"  taxID  integer(10) NOT NULL, ",
+#"  taxID  integer(10) NOT NULL, ",
 "  FOREIGN KEY(A) REFERENCES Gene(ID), ",
 "  FOREIGN KEY(B) REFERENCES Gene(ID));")
 ddlS<-paste("CREATE TABLE Species (",
@@ -128,7 +128,7 @@ ddlUGE<-paste("CREATE UNIQUE INDEX GeneUI ",
 "  ON Gene (HumanEntrez, MouseEntrez);")
 ddlGO <- paste("CREATE TABLE GO (",
 "  GOID        varchar(255) NOT NULL, ",
-"  Description varchar(255) NOT NULL, ",
+"  Term        varchar(255) NOT NULL, ",
 "  Domain      varchar(255) NOT NULL, ",
 "  PRIMARY KEY (GOID));")
 ddlGOGene <- paste("CREATE TABLE GOGene (",
