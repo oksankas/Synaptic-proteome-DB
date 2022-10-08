@@ -30,8 +30,11 @@ library(RSQLite)
 library(plyr)
 library(dtplyr)
 library(dbplyr)
-
-dbname<-"synaptic.proteome_SR_ASD_20212909.db.sqlite"
+library(GO.db)
+library(org.Hs.eg.db)
+library(org.Mm.eg.db)
+library(org.Rn.eg.db)
+dbname<-"synaptic.proteome_SR_ASD_EPS_2022108.db.sqlite"
 recreate<-TRUE
 ```
 
