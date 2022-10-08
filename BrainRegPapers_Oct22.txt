@@ -24,6 +24,7 @@ Forebrain	ILX:0104363	Whole forebrain	FERNANDEZ_2009
 Forebrain	ILX:0104364	Whole forebrain	FERNANDEZ_2017
 Forebrain	ILX:0104365	Whole forebrain	COUGHENOUR_2004
 Forebrain	ILX:0104366	Whole forebrain	BIESEMANN_2014
+Forebrain	ILX:0104366	Whole forebrain	FRANK_2015
 Midbrain	ILX:0106935	Midbrain	TRINIDAD_2008
 Cerebellum	ILX:0101963	Cerebellum	TRINIDAD_2008
 Cerebellum	ILX:0101964	Cerebellum	CHENG_2006
