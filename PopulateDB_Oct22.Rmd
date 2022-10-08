@@ -568,10 +568,21 @@ dbWriteTable(mydb, "ppi", ppi.t,append=TRUE)
 # idx<-which(!is.na(pmidx))
 # pap.ppi<-data.frame(PMID=papers$PubMed[pmidx[idx]],PPID=ppi.df$ID[idx])
 pmidx<-match(ppi.df$pmid,pmed$PMID)
-idx<-which(!is.na(pmidx))
+idx<-which(is.na(pmidx))
+npmid<-as.numeric(ppi.df$pmid[idx])
+idx<-which(!is.na(npmid))
+npmid.df<-data.frame(PMID=npmid[idx],
+                     Year=0,
+                     Name=as.character(npmid[idx]),
+                     Description=NA)
+dbWriteTable(mydb, "paper", npmid.df,append=TRUE)
+p.df<-rbind(p.df,npmid.df)
+pmidx<-match(ppi.df$pmid,p.df$PMID)
+idx<-which(is.na(pmidx))
 pap.ppi<-data.frame(PMID=pmed$PMID[pmidx[idx]],PPID=ppi.df$ID[idx])
 dbWriteTable(mydb, "PaperPPI", pap.ppi,append=TRUE)
 length(which(is.na(pmidx)))
+
 ```
 
 # GO
