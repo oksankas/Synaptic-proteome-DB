@@ -480,12 +480,43 @@ for (i in 1:dim(brp)[1]){
 mag3 <-do.call(rbind,l)
 ```
 
+### SV
+```{r prepare.sv, eval = recreate}
+gene4<-read.delim("SV_Oct22.txt",sep ='\t',header=TRUE, stringsAsFactors = FALSE)
+g4.df<-gene4[,1:4]
+names(g4.df)<-c('mouseentrez',
+                'mousename',
+                'humanentrez',
+                'humanname')
+surKey<-paste(g4.df$mouseentrez,g4.df$humanentrez,sep=":")
+idx<-match(surKey,fg.df$surkey)
+g4.df$id<-fg.df$ID[idx]
+gene4$id<-fg.df$ID[idx]
+mg4<-melt(gene4[,c(5:dim(gene4)[2])],id="id")
+mg4<-mg4[mg4$value==1,]
+mg4$locID=4
+idx<-match(mg4$variable,p.df$Name)
+mg4$pmid<-p.df$PMID[idx]
+mg4$taxId<-papers$taxId[idx]
+mg4$methodId<-papers$methodId[idx]
+l <- list()
+for (i in 1:dim(brp)[1]){
+  if (any(mg4$variable == brp$Paper[i])){
+  mgt <- mg4[mg4$variable == brp$Paper[i],]
+  mgt$BrainRegionID <- idxBR[i]
+  l[[length(l)+1]] <- mgt
+  }
+}
+mag4 <-do.call(rbind,l)
+```
+
 ### COmbine all localisation
 
 ```{r combine.and.load}
 totGene<-rbind(mag1[,c("id","locID","pmid","taxId","methodId", 'BrainRegionID')],
                mag2[,c("id","locID","pmid","taxId","methodId", 'BrainRegionID')],
-               mag3[,c("id","locID","pmid","taxId","methodId", 'BrainRegionID')])
+               mag3[,c("id","locID","pmid","taxId","methodId", 'BrainRegionID')],
+               mag4[,c("id","locID","pmid","taxId","methodId", 'BrainRegionID')])
 names(totGene)<-c("GeneID","LocalisationID","PaperPMID","SpeciesTaxID",
                   "MethodID", 'BrainRegionID')
 totGene<-totGene[,c("GeneID",
