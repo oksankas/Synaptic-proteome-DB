@@ -699,21 +699,34 @@ dbWriteTable(mydb, "GeneToModel", gmgg, append=TRUE)
 # Mutations
 ## Autism related mutation
 Gene table contains two copies of GSTM1 HLA-A, so we decided that mapping of first row to mutations will be enough for our purposes.
-```{r load.mut.table}
-mut <- read.csv("ASD_mut_combined_Oct22.txt", stringsAsFactors = FALSE)
-idx <- match(mut$Gene, fg.df$HumanName)
-mut$GeneID <- fg.df$ID[idx]
-mut$HDOID <- "DOID:0060041"
-mut.df <- unique(mut[, c("GeneID", "HDOID","Chr", "Position", "Variant","FunctionClass", "cDnaVariant", "ProteinVariant","Exon.Intron", "DENOVO", "SFARI", "HGMD", "ClinVar")])
-mut.df$ID <- 1:dim(mut.df)[1]
-mut.df <- mut.df[, c("ID","GeneID", "HDOID","Chr", "Position", "Variant","FunctionClass", "cDnaVariant", "ProteinVariant","Exon.Intron", "DENOVO", "SFARI", "HGMD", "ClinVar")]
-names(mut.df) <- c("ID","GeneID", "HDOID","Chromosome", "Position", "Variant","FunctionClass", "cDNAvariant", "ProteinVariant","ExonIntron", "DENOVO", "SFARI", "HGMD", "ClinVar")
-dbWriteTable(mydb, "Mutation", mut.df, append=TRUE)
+```{r load.asd.mut.table}
+mut.asd <- read.csv("ASD_mut_combined_Oct22.txt",sep='\t', stringsAsFactors = FALSE)
+idx <- match(mut.asd$Gene, fg.df$HumanName)
+mut.asd$GeneID <- fg.df$ID[idx]
+mut.asd$HDOID <- "DOID:0060041"
+mut.asd.df <- unique(mut.asd[, c("GeneID", "HDOID","Chr", "Position", "Variant","FunctionClass", "cDnaVariant", "ProteinVariant","Exon.Intron", "DENOVO", "SFARI", "HGMD", "ClinVar")])
+mut.asd.df$ID <- 1:dim(mut.asd.df)[1]
+mut.asd.df <- mut.asd.df[, c("ID","GeneID", "HDOID","Chr", "Position", "Variant","FunctionClass", "cDnaVariant", "ProteinVariant","Exon.Intron", "DENOVO", "SFARI", "HGMD", "ClinVar")]
+names(mut.asd.df) <- c("ID","GeneID", "HDOID","Chromosome", "Position", "Variant","FunctionClass", "cDNAvariant", "ProteinVariant","ExonIntron", "DENOVO", "SFARI", "HGMD", "ClinVar")
+dbWriteTable(mydb, "Mutation", mut.asd.df, append=TRUE)
+```
+
+```{r load.epi.mut.table}
+mut.epi <- read.csv("Epi_combined_Oct22.txt",sep='\t', stringsAsFactors = FALSE)
+idx <- match(mut.epi$Gene, fg.df$HumanName)
+mut.epi$GeneID <- fg.df$ID[idx]
+mut.epi$HDOID <- "DOID:1826"
+mut.epi.df <- unique(mut.epi[, c("GeneID", "HDOID","Chr", "Position", "Variant","FunctionClass", "cDnaVariant", "ProteinVariant","Exon.Intron", "DENOVO", "SFARI", "HGMD", "ClinVar")])
+mut.epi.df$ID <- 1:dim(mut.epi.df)[1]
+mut.epi.df <- mut.epi.df[, c("ID","GeneID", "HDOID","Chr", "Position", "Variant","FunctionClass", "cDnaVariant", "ProteinVariant","Exon.Intron", "DENOVO", "SFARI", "HGMD", "ClinVar")]
+names(mut.epi.df) <- c("ID","GeneID", "HDOID","Chromosome", "Position", "Variant","FunctionClass", "cDNAvariant", "ProteinVariant","ExonIntron", "DENOVO", "SFARI", "HGMD", "ClinVar")
+dbWriteTable(mydb, "Mutation", mut.epi.df, append=TRUE)
 ```
 
 
 ```{r load PaperMut}
-
+mut<-rbind(mut.asd[,-c("StudyName")],mut.epi)
+mut.df<-rbind(mut.asd.df,mut.epi.df)
 mpub<-unique(merge(mut.df,mut)[,c("ID","PubmedID")])
 mpub$PubmedID<-sub("NA;?","",mpub$PubmedID)
 idx.mpub<-grep(";",mpub$PubmedID)
