@@ -34,7 +34,7 @@ library(GO.db)
 library(org.Hs.eg.db)
 library(org.Mm.eg.db)
 library(org.Rn.eg.db)
-dbname<-"synaptic.proteome_SR_ASD_EPS_2022108.db.sqlite"
+dbname<-"synaptic.proteome_SR_ASD_EPS_20221010.db.sqlite"
 recreate<-TRUE
 ```
 
@@ -275,7 +275,7 @@ dbSendStatement(mydb,ddlGOGene)
 dbSendStatement(mydb,ddlD)
 dbSendStatement(mydb,ddlDG)
 dbSendStatement(mydb,ddlBRS)
-dbSendStatement(mydb,ddlMO)
+#dbSendStatement(mydb,ddlMO)
 dbSendStatement(mydb,ddlMut)
 dbSendStatement(mydb,ddlPapMut)
 dbSendStatement(mydb,ddlPapPPI)
