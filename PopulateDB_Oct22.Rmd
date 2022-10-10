@@ -677,52 +677,46 @@ dbWriteTable(mydb, "DiseaseGene", hdog, append=TRUE)
 # Mutations
 ## Autism related mutation
 Gene table contains two copies of GSTM1 HLA-A, so we decided that mapping of first row to mutations will be enough for our purposes.
-```{r prepare.asd.mut.table}
+```
+{r prepare.asd.mut.table}
 mut.asd <- read.csv("ASD_mut_combined_Oct22.txt",sep='\t', stringsAsFactors = FALSE)
 idx <- match(mut.asd$Gene, fg.df$HumanName)
 mut.asd$GeneID <- fg.df$ID[idx]
 mut.asd$HDOID <- "DOID:0060041"
 mut.asd.df <- unique(mut.asd[!is.na(mut.asd$GeneID), c("GeneID", "HDOID","Chr", "Position", "Variant","FunctionClass", "cDnaVariant", "ProteinVariant","Exon.Intron", "DENOVO", "SFARI", "ClinVar")])
 mut.asd.df$ID <- 1:dim(mut.asd.df)[1]
-mut.asd.df$EpilepsyGene <- 'FALSE'
+mut.asd.df$EpilepsyGene <- "NO"
 mut.asd.df <- mut.asd.df[, c("ID","GeneID", "HDOID","Chr", "Position", "Variant","FunctionClass", "cDnaVariant", "ProteinVariant","Exon.Intron", "DENOVO", "SFARI", "EpilepsyGene","ClinVar")]
 names(mut.asd.df) <- c("ID","GeneID", "HDOID","Chromosome", "Position", "Variant","FunctionClass", "cDNAvariant", "ProteinVariant","ExonIntron", "DENOVO", "SFARI","EpilepsyGene", "ClinVar")
 ```
 
 ## Epilepsy related mutation
-```{r prepare.epi.mut.table}
+```
+{r prepare.epi.mut.table}
 mut.epi <- read.csv("Epi_combined_Oct22.txt",sep='\t', stringsAsFactors = FALSE)
 idx <- match(mut.epi$Human_Entrez, fg.df$HumanEntrez)
 mut.epi$GeneID <- fg.df$ID[idx]
 mut.epi$HDOID <- "DOID:1826"
 mut.epi.df <- unique(mut.epi[!is.na(mut.epi$GeneID), c("GeneID", "HDOID","Chr", "Position", "Variant","FunctionClass", "cDnaVariant", "ProteinVariant","Exon.Intron", "Denovo", "EpilepsyGene", "ClinVar")])
 mut.epi.df$ID <- 1:dim(mut.epi.df)[1]
-mut.epi.df$SFARI <- 'FALSE'
+mut.epi.df$SFARI <- "NO"
 mut.epi.df <- mut.epi.df[, c("ID","GeneID", "HDOID","Chr", "Position", "Variant","FunctionClass", "cDnaVariant", "ProteinVariant","Exon.Intron", "Denovo", "SFARI","EpilepsyGene", "ClinVar")]
 names(mut.epi.df) <- c("ID","GeneID", "HDOID","Chromosome", "Position", "Variant","FunctionClass", "cDNAvariant", "ProteinVariant","ExonIntron", "DENOVO", "SFARI","EpilepsyGene", "ClinVar")
 ```
 
 ```{r load.mut.table}
-mut.df<-rbind(mut.asd.df,mut.epi.df)
-mut.df$ID <- 1:dim(mut.df)[1]
+mut.df<-read.csv("Mut_combined.txt",sep=',', stringsAsFactors = FALSE)
+idx <- match(mut.df$Human_Entrez, fg.df$HumanEntrez)
+mut.df$GeneID <- fg.df$ID[idx]
+mut.df <- mut.df[, c("ID","GeneID", "HDOID","Chr", "Position", "Variant","FunctionClass", "cDnaVariant", "ProteinVariant","Exon.Intron", "Denovo", "SFARI","EpilepsyGene", "ClinVar")]
+names(mut.df) <- c("ID","GeneID", "HDOID","Chromosome", "Position", "Variant","FunctionClass", "cDNAvariant", "ProteinVariant","ExonIntron", "DENOVO", "SFARI","EpilepsyGene", "ClinVar")
 dbWriteTable(mydb, "Mutation", mut.df, append=TRUE)
 ```
 
 
 ```{r load PaperMut}
-mut<-rbind(mut.asd,mut.epi)
-mpub<-unique(merge(mut.df,mut)[,c("ID","PubmedID")])
-mpub$PubmedID<-sub("NA;?","",mpub$PubmedID)
-idx.mpub<-grep(";",mpub$PubmedID)
-mpub1<-mpub[-idx.mpub,]
-mpub2<-mpub[idx.mpub,]
-l<-strsplit(mpub2$PubmedID,";")
-ldf<-ldply(1:length(idx.mpub),
-           .fun = function(.x)
-             data.frame(ID=mpub2$ID[.x],
-                        PubmedID=trimws(unlist(l[[.x]]))))
-papmut.df<-unique(rbind(mpub1,ldf))
-papmut.df <- papmut.df[,c(2,1)]
+    mpub<-read.csv("Mut_PMID.txt",sep=',', stringsAsFactors = FALSE)
+papmut.df <- mpub[,c(2,1)]
 names(papmut.df) <- c("PMID", "MutationID")
 dbWriteTable(mydb, "PaperMutation", papmut.df, append=TRUE)
 
