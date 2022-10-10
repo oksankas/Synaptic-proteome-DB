@@ -104,6 +104,7 @@ ddlPG<-paste("CREATE TABLE PaperGene (",
 "  PRIMARY KEY (GeneID, ",
 "  PaperPMID, ",
 "  Dataset, ",
+"  SpeciesTaxID, ",
 "  BrainRegionID, ",
 "  LocalisationID), ",
 "  FOREIGN KEY(GeneID) REFERENCES Gene(ID), ",
@@ -288,8 +289,8 @@ dbSendStatement(mydb,ddlV4)
 ## Method
 ```{r add.methods, eval=recreate}
 method.df<-data.frame(ID=1:2,
-                      name=c("Shotgun","Target"),
-                      description=c("Shotgun","Target"))
+                      Name=c("Shotgun","Target"),
+                      Description=c("Shotgun","Target"))
 dbWriteTable(mydb, "method", method.df,append=TRUE)
 ```
 
@@ -312,6 +313,7 @@ idxBR <- match(brp$Name, brainReg.df$Name)
 dbWriteTable(mydb, "BrainRegion", brainReg.df,append=TRUE)
 
 ```
+
 ## SpecieRegion
 
 ```{r Specie.Region}
@@ -344,14 +346,14 @@ any(papers$PubMed %in% pmed$PMID)
 pmed.df <- unique(pmed[,c("PMID", "Year","Name")])
 names(pmed.df) <- c("PMID","Year","Name")
 pmed.df$Description <- NA
-p.fq<-as.data.frame(table(pmed.df$Name))
-p.fq<-p.fq[p.fq$Freq>1,]
-for(nm in p.fq$Var1){
-  idx.pfq<-which(pmed.df$Name==nm)
-  pmed.df$Name[idx.pfq]<-paste0(pmed.df$Name[idx.pfq],letters[1:length(idx.pfq)])
-}
-pmed.df$Name[which(pmed.df$Name %in% papers$Name)]<-paste0(
-  pmed.df$Name[which(pmed.df$Name %in% papers$Name)],'a')
+# p.fq<-as.data.frame(table(pmed.df$Name))
+# p.fq<-p.fq[p.fq$Freq>1,]
+# for(nm in p.fq$Var1){
+#   idx.pfq<-which(pmed.df$Name==nm)
+#   pmed.df$Name[idx.pfq]<-paste0(pmed.df$Name[idx.pfq],letters[1:length(idx.pfq)])
+# }
+# pmed.df$Name[which(pmed.df$Name %in% papers$Name)]<-paste0(
+#   pmed.df$Name[which(pmed.df$Name %in% papers$Name)],'a')
 p.df<-unique(papers[,c('PubMed','Year','Name','Short.description')])
 names(p.df)<-c("PMID","Year","Name","Description")
 p.df <- rbind(p.df, pmed.df)
@@ -478,11 +480,20 @@ mg3$taxId<-papers$taxId[idx]
 mg3$methodId<-papers$methodId[idx]
 l <- list()
 for (i in 1:dim(brp)[1]){
-  if (any(mg3$variable == brp$Paper[i])){
-  mgt <- mg3[mg3$variable == brp$Paper[i],]
-  mgt$BrainRegionID <- idxBR[i]
-  l[[length(l)+1]] <- mgt
-  }
+    if (any(mg3$variable == brp$Paper[i])){
+        if('KOOPMANS_2018' == brp$Paper[i]){
+            for(txid in species.df$TaxID){
+            mgt <- mg3[mg3$variable == brp$Paper[i],]
+            mgt$BrainRegionID <- idxBR[i]
+            mgt$taxId <- txid
+            l[[length(l)+1]] <- mgt
+            }
+        }else{
+            mgt <- mg3[mg3$variable == brp$Paper[i],]
+            mgt$BrainRegionID <- idxBR[i]
+            l[[length(l)+1]] <- mgt
+        }
+    }
 }
 mag3 <-do.call(rbind,l)
 ```
@@ -571,16 +582,18 @@ dbWriteTable(mydb, "ppi", ppi.t,append=TRUE)
 pmidx<-match(ppi.df$pmid,pmed$PMID)
 idx<-which(is.na(pmidx))
 npmid<-as.numeric(ppi.df$pmid[idx])
-idx<-which(!is.na(npmid))
-npmid.df<-data.frame(PMID=npmid[idx],
+nnaidx<-which(!is.na(npmid))
+if(length(nnaidx)>0){
+npmid.df<-data.frame(PMID=npmid[idx[nnaidx]],
                      Year=0,
-                     Name=as.character(npmid[idx]),
+                     Name=as.character(npmid[idx[nnaidx]]),
                      Description=NA)
 dbWriteTable(mydb, "paper", npmid.df,append=TRUE)
 p.df<-rbind(p.df,npmid.df)
+}
 pmidx<-match(ppi.df$pmid,p.df$PMID)
 idx<-which(is.na(pmidx))
-pap.ppi<-data.frame(PMID=pmed$PMID[pmidx[idx]],PPID=ppi.df$ID[idx])
+pap.ppi<-data.frame(PMID=ppi.df$pmid[-idx],PPID=ppi.df$ID[-idx])
 dbWriteTable(mydb, "PaperPPI", pap.ppi,append=TRUE)
 length(which(is.na(pmidx)))
 
@@ -595,10 +608,10 @@ keys<-as.character(keys[!is.na(keys)])
 on <- AnnotationDbi::select(orgDB, keys,
                             columns = c("GO",'ONTOLOGY'),
                             keytype = keytype)
+on<-on[!is.na(on$GO),]
 gogene.hs<-unique(on[,c('ENTREZID','GO','EVIDENCE')])
 names(gogene.hs)<-c('GeneID','GOID','Evidence')
 gogene.hs$SpecieID<-9606
-
 go.hs<-AnnotationDbi::select(GO.db,
                            unique(on$GO),
                            column=c('TERM',"ONTOLOGY"),
@@ -614,6 +627,7 @@ keys<-as.character(keys[!is.na(keys)])
 on <- AnnotationDbi::select(orgDB, keys,
                             columns = c("GO",'ONTOLOGY'),
                             keytype = keytype)
+on<-on[!is.na(on$GO),]
 gogene.mm<-unique(on[,c('ENTREZID','GO','EVIDENCE')])
 names(gogene.mm)<-c('GeneID','GOID','Evidence')
 gogene.mm$SpecieID<-10090
@@ -632,6 +646,7 @@ keys<-as.character(keys[!is.na(keys)])
 on <- AnnotationDbi::select(orgDB, keys,
                             columns = c("GO",'ONTOLOGY'),
                             keytype = keytype)
+on<-on[!is.na(on$GO),]
 gogene.rn<-unique(on[,c('ENTREZID','GO','EVIDENCE')])
 names(gogene.rn)<-c('GeneID','GOID','Evidence')
 gogene.rn$SpecieID<-10116
@@ -651,7 +666,7 @@ dbWriteTable(mydb, "GO", df.go, append=TRUE)
 ```{r load.GoGene}
 gogene<-unique(rbind(gogene.hs,gogene.mm,gogene.rn))
 gogene<-gogene[,c("GeneID", "SpecieID","GOID","Evidence")]
-dbWriteTable(mydb, "GOGene", bph.t, append=TRUE)
+dbWriteTable(mydb, "GOGene", gogene, append=TRUE)
 ```
 # Disease
 ```{r Add.disease}
