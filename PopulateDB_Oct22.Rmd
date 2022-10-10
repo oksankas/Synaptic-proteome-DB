@@ -339,7 +339,7 @@ dbWriteTable(mydb, "localisation", loc.df,append=TRUE)
 ```{r prepare.papers}
 #papers<-read.delim("Paper_DB_summary.txt",sep='\t',header = TRUE, stringsAsFactors = FALSE)
 papers<-read.delim("Paper_DB_summary_Oct22.txt",sep='\t',header = TRUE, stringsAsFactors = FALSE)
-pmed <- read.csv("pubmed.named_oct22.csv", stringsAsFactors = FALSE)
+pmed <- read.csv("pubmed.named.csv", stringsAsFactors = FALSE)
 any(papers$PubMed %in% pmed$PMID)
 pmed.df <- unique(pmed[,c("PMID", "Year","Name")])
 names(pmed.df) <- c("PMID","Year","Name")
