@@ -252,6 +252,32 @@ ddlV4<-paste("CREATE VIEW FullGeneFullDisease AS",
 "           DiseaseGene dg ON g.ID = dg.GeneID",
 "           JOIN",
 "           disease d ON dg.HDOID = d.HDOID;")
+ddlV5<-paste("CREATE VIEW AllMutationsAllPapers AS",
+"SELECT      m.GeneID,",
+"            MGI,",
+"            MouseEntrez,",
+"            MouseName,",
+"            HumanName,",
+"            HumanEntrez,",
+"            HDOID,",
+"            d.Description AS Disease,",
+"            Chromosome,",
+"            Position,",
+"            Variant,",
+"            FunctionClass,",
+"            cDNAvariant,",
+"            ProteinVariant,",
+"            DENOVO,",
+"            SFARI,",
+"            EpilepsyGene,",
+"            ClinVar,",
+"            PMID,",
+"            p.Name AS Paper",
+"FROM  Gene g ",
+"JOIN Mutation m ON g.ID = m.GeneID",
+"JOIN Disease d ON m.HDOID = d.HDOID",
+"JOIN PaperMutation pm ON pm.MutationID=m.ID",
+"JOIN Paper p ON p.PMID=pm.PMID;")
 ```
 
 # Make database
@@ -283,6 +309,7 @@ dbSendStatement(mydb,ddlV1)
 dbSendStatement(mydb,ddlV2)
 dbSendStatement(mydb,ddlV3)
 dbSendStatement(mydb,ddlV4)
+dbSendStatement(mydb,ddlV5)
 ```
 
 # Populate database
