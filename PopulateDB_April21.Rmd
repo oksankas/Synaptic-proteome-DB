@@ -31,7 +31,7 @@ library(plyr)
 library(dtplyr)
 library(dbplyr)
 
-dbname<-"synaptic.proteome_SR_20210704.db.sqlite"
+dbname<-"synaptic.proteome_SR_20240708.db.sqlite"
 recreate<-TRUE
 ```
 
@@ -255,8 +255,10 @@ dbWriteTable(mydb, "species", species.df,append=TRUE)
 
 ## Brain Regions
 ```{r add.brain.regions, eval = recreate}
-brainReg.df <- read.table("~/Documents/Synaptic proteome paper/db/Up_March2020/BrainRegions.txt", sep = "\t", header = TRUE, stringsAsFactors = FALSE )
-brp <- read.delim("~/Documents/Synaptic proteome paper/db/Up_March2020/BrainRegPapers.txt", sep = "\t", header = T, stringsAsFactors = FALSE)
+brainReg.df <- read.table("BrainRegions.txt", sep = "\t", header = TRUE, stringsAsFactors = FALSE )
+brp <- read.delim("BrainRegPapers.txt", sep = "\t", header = T, stringsAsFactors = FALSE)
+#brainReg.df <- read.table("~/Documents/Synaptic proteome paper/db/Up_March2020/BrainRegions.txt", sep = "\t", header = TRUE, stringsAsFactors = FALSE )
+#brp <- read.delim("~/Documents/Synaptic proteome paper/db/Up_March2020/BrainRegPapers.txt", sep = "\t", header = T, stringsAsFactors = FALSE)
 idxBR <- match(brp$Name, brainReg.df$Name)
 
 dbWriteTable(mydb, "BrainRegion", brainReg.df,append=TRUE)
@@ -265,7 +267,8 @@ dbWriteTable(mydb, "BrainRegion", brainReg.df,append=TRUE)
 ## SpecieRegion
 
 ```{r Specie.Region}
-sbr <- read.delim("~/Documents/Synaptic proteome paper/db/Up_March2020/BrainRegionSpecie.txt", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+sbr <- read.delim("BrainRegionSpecie.txt", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+#sbr <- read.delim("~/Documents/Synaptic proteome paper/db/Up_March2020/BrainRegionSpecie.txt", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 dbWriteTable(mydb, "SpecieRegion", sbr,append=TRUE)
 
 ```
@@ -285,9 +288,10 @@ dbWriteTable(mydb, "localisation", loc.df,append=TRUE)
 
 ## Papers
 ```{r prepare.papers}
-#papers<-read.delim("Paper_DB_summary.txt",sep='\t',header = TRUE, stringsAsFactors = FALSE)
-papers<-read.delim("~/Documents/Synaptic proteome paper/db/Up_March2020/Paper_DB_summary_April21.txt",sep='\t',header = TRUE, stringsAsFactors = FALSE)
-pmed <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/pubmed.data.full.csv", stringsAsFactors = FALSE)
+papers<-read.delim("Paper_DB_summary_April21.txt",sep='\t',header = TRUE, stringsAsFactors = FALSE)
+#papers<-read.delim("~/Documents/Synaptic proteome paper/db/Up_March2020/Paper_DB_summary_April21.txt",sep='\t',header = TRUE, stringsAsFactors = FALSE)
+pmed <- read.csv("pubmed.data.full.csv", stringsAsFactors = FALSE)
+#pmed <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/pubmed.data.full.csv", stringsAsFactors = FALSE)
 any(papers$PubMed %in% pmed$PMID)
 pmed.df <- unique(pmed[,c("PMID", "Year","name")])
 names(pmed.df) <- c("PMID","Year","Name")
@@ -313,7 +317,8 @@ dbWriteTable(mydb, "paper", p.df,append=TRUE)
 ## Genes
 ### Genes table
 ```{r full.genes}
-full <- read.delim("~/Documents/Synaptic proteome paper/db/Up_March2020/Full_DB_April21.txt", sep = "\t", header = T, stringsAsFactors = FALSE)
+full <- read.delim("Full_DB_April21.txt", sep = "\t", header = T, stringsAsFactors = FALSE)
+#full <- read.delim("~/Documents/Synaptic proteome paper/db/Up_March2020/Full_DB_April21.txt", sep = "\t", header = T, stringsAsFactors = FALSE)
 full$ID<-1:dim(full)[1]
 fg.df<- full[,c(dim(full)[2],1:7)]
 names(fg.df)<-c('ID',
@@ -335,8 +340,8 @@ fg.df$surkey<-paste(fg.df$MouseEntrez,
 ### Postsynaptic
 
 ```{r prepare.postsynaptic, eval=recreate}
-#gene1<-read.delim("PSD_db_Sept19.txt",sep ='\t',header=TRUE, stringsAsFactors = FALSE)
-gene1<-read.delim("~/Documents/Synaptic proteome paper/db/Up_March2020/PSD_db_Oct20.txt",sep ='\t',header=TRUE, stringsAsFactors = FALSE)
+gene1<-read.delim("PSD_db_Oct20.txt",sep ='\t',header=TRUE, stringsAsFactors = FALSE)
+#gene1<-read.delim("~/Documents/Synaptic proteome paper/db/Up_March2020/PSD_db_Oct20.txt",sep ='\t',header=TRUE, stringsAsFactors = FALSE)
 gene1 <- gene1[, -c(dim(gene1)[2])]
 g1.df<-gene1[,1:5]
 names(g1.df)<-c('mgi',
@@ -368,7 +373,8 @@ mag1 <-do.call(rbind,l)
 
 ### Presynaptic
 ```{r prepare.presynaptic, eval = recreate}
-gene2<-read.delim("~/Documents/Synaptic proteome paper/db/Up_March2020/Pres_DB_April21.txt",sep ='\t',header=TRUE, stringsAsFactors = FALSE)
+gene2<-read.delim("Pres_DB_April21.txt",sep ='\t',header=TRUE, stringsAsFactors = FALSE)
+#gene2<-read.delim("~/Documents/Synaptic proteome paper/db/Up_March2020/Pres_DB_April21.txt",sep ='\t',header=TRUE, stringsAsFactors = FALSE)
 gene2 <- gene2[, -c(dim(gene2)[2])]
 g2.df<-gene2[,c("MGI.ID",
                 "MOUSE.ENTREZ.ID",
@@ -404,7 +410,8 @@ mag2 <-do.call(rbind,l)
 
 ### Synaptosome
 ```{r prepare.synaptosome, eval = recreate}
-gene3<-read.delim("~/Documents/Synaptic proteome paper/db/Up_March2020/Syn_DB_April21.txt",sep ='\t',header=TRUE, stringsAsFactors = FALSE)
+gene3<-read.delim("Syn_DB_April21.txt",sep ='\t',header=TRUE, stringsAsFactors = FALSE)
+#gene3<-read.delim("~/Documents/Synaptic proteome paper/db/Up_March2020/Syn_DB_April21.txt",sep ='\t',header=TRUE, stringsAsFactors = FALSE)
 g3.df<-gene3[,1:4]
 names(g3.df)<-c('mouseentrez',
                 'mousename',
@@ -451,8 +458,8 @@ dbWriteTable(mydb, "papergene", totGene,append=TRUE)
 
 # PPI
 ```{r load.ppi}
-#ppi.df<-read.delim("PPI_DB_Homo.txt",sep = "\t", header = TRUE, stringsAsFactors = FALSE)
-ppi.df<-read.delim("~/Documents/Synaptic proteome paper/db/Up_March2020/PPI_DB_April21.txt",sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+ppi.df<-read.delim("PPI_DB_April21.txt",sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+#ppi.df<-read.delim("~/Documents/Synaptic proteome paper/db/Up_March2020/PPI_DB_April21.txt",sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 idxA<-match(ppi.df$entA,fg.df$HumanEntrez)
 idxB<-match(ppi.df$entB,fg.df$HumanEntrez)
 ppi.df$A<-fg.df$ID[idxA]
@@ -474,23 +481,32 @@ length(which(is.na(pmidx)))
 
 # GO
 ```{r load.GO}
-bph <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Human_BP.csv", sep = "\t", header = FALSE)
-bpm <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Mouse_BP.csv", sep = "\t", header = FALSE)
-bpr <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Rat_BP.csv", sep = "\t", header = FALSE)
+bph <- read.csv("flatfile_Human_BP.csv", sep = "\t", header = FALSE)
+bpm <- read.csv("flatfile_Mouse_BP.csv", sep = "\t", header = FALSE)
+bpr <- read.csv("flatfile_Rat_BP.csv", sep = "\t", header = FALSE)
+#bph <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Human_BP.csv", sep = "\t", header = FALSE)
+#bpm <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Mouse_BP.csv", sep = "\t", header = FALSE)
+#bpr <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Rat_BP.csv", sep = "\t", header = FALSE)
 BP <- rbind(bph[, c(1,2)], bpm[, c(1,2)], bpr[, c(1,2)])
 BP <- unique(BP)
 names(BP) <- c("GOID", "Description")
 BP$Domain <- "BP"
-cch <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Human_CC.csv", sep = "\t", header = FALSE)
-ccm <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Mouse_CC.csv", sep = "\t", header = FALSE)
-ccr <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Rat_CC.csv", sep = "\t", header = FALSE)
+cch <- read.csv("flatfile_Human_CC.csv", sep = "\t", header = FALSE)
+ccm <- read.csv("flatfile_Mouse_CC.csv", sep = "\t", header = FALSE)
+ccr <- read.csv("flatfile_Rat_CC.csv", sep = "\t", header = FALSE)
+#cch <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Human_CC.csv", sep = "\t", header = FALSE)
+#ccm <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Mouse_CC.csv", sep = "\t", header = FALSE)
+#ccr <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Rat_CC.csv", sep = "\t", header = FALSE)
 CC <- rbind(cch[, c(1,2)], ccm[, c(1,2)], ccr[, c(1,2)])
 CC <- unique(CC)
 names(CC) <- c("GOID", "Description")
 CC$Domain <- "CC"
-mfh <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Human_MF.csv", sep = "\t", header = FALSE)
-mfm <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Mouse_MF.csv", sep = "\t", header = FALSE)
-mfr <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Rat_MF.csv", sep = "\t", header = FALSE)
+mfh <- read.csv("flatfile_Human_MF.csv", sep = "\t", header = FALSE)
+mfm <- read.csv("flatfile_Mouse_MF.csv", sep = "\t", header = FALSE)
+mfr <- read.csv("flatfile_Rat_MF.csv", sep = "\t", header = FALSE)
+#mfh <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Human_MF.csv", sep = "\t", header = FALSE)
+#mfm <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Mouse_MF.csv", sep = "\t", header = FALSE)
+#mfr <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Rat_MF.csv", sep = "\t", header = FALSE)
 MF <- rbind(mfh[, c(1,2)], mfm[, c(1,2)], mfr[, c(1,2)])
 MF <- unique(MF)
 names(MF) <- c("GOID", "Description")
@@ -501,7 +517,8 @@ dbWriteTable(mydb, "GO", df.go, append=TRUE)
 ```
 # GoGene
 ```{r load.GoGene}
-bph<- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Human_BP.csv", sep = "\t", header = FALSE)
+bph<- read.csv("flatfile_Human_BP.csv", sep = "\t", header = FALSE)
+#bph<- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Human_BP.csv", sep = "\t", header = FALSE)
 bph$SpecieID <- "9606"
 idx <- match(bph$V3,fg.df$HumanEntrez)
 bph$GeneID <- fg.df$ID[idx]
@@ -510,7 +527,8 @@ head(bph.t)
 names(bph.t) <- c("GeneID", "SpecieID","GOID")
 dbWriteTable(mydb, "GOGene", bph.t, append=TRUE)
 
-bpm<- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Mouse_BP.csv", sep = "\t", header = FALSE)
+bpm<- read.csv("flatfile_Mouse_BP.csv", sep = "\t", header = FALSE)
+#bpm<- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Mouse_BP.csv", sep = "\t", header = FALSE)
 bpm$SpecieID <- "10090"
 idx <- match(bpm$V3,fg.df$MouseEntrez)
 bpm$GeneID <- fg.df$ID[idx]
@@ -519,7 +537,8 @@ head(bpm.t)
 names(bpm.t) <- c("GeneID", "SpecieID","GOID")
 dbWriteTable(mydb, "GOGene", bpm.t, append=TRUE)
 
-bpr<- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Rat_BP.csv", sep = "\t", header = FALSE)
+bpr<- read.csv("flatfile_Rat_BP.csv", sep = "\t", header = FALSE)
+#bpr<- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Rat_BP.csv", sep = "\t", header = FALSE)
 bpr$SpecieID <- "10116"
 idx <- match(bpr$V3,fg.df$RatEntrez)
 bpr$GeneID <- fg.df$ID[idx]
@@ -528,7 +547,8 @@ head(bpr.t)
 names(bpr.t) <- c("GeneID", "SpecieID","GOID")
 dbWriteTable(mydb, "GOGene", bpr.t, append=TRUE)
 
-cch<- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Human_CC.csv", sep = "\t", header = FALSE)
+cch<- read.csv("flatfile_Human_CC.csv", sep = "\t", header = FALSE)
+#cch<- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Human_CC.csv", sep = "\t", header = FALSE)
 cch$SpecieID <- "9606"
 idx <- match(cch$V3,fg.df$HumanEntrez)
 cch$GeneID <- fg.df$ID[idx]
@@ -537,7 +557,8 @@ head(cch.t)
 names(cch.t) <- c("GeneID", "SpecieID","GOID")
 dbWriteTable(mydb, "GOGene", cch.t, append=TRUE)
 
-ccm<- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Mouse_CC.csv", sep = "\t", header = FALSE)
+ccm<- read.csv("flatfile_Mouse_CC.csv", sep = "\t", header = FALSE)
+#ccm<- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Mouse_CC.csv", sep = "\t", header = FALSE)
 ccm$SpecieID <- "10090"
 idx <- match(ccm$V3,fg.df$MouseEntrez)
 ccm$GeneID <- fg.df$ID[idx]
@@ -546,7 +567,8 @@ head(ccm.t)
 names(ccm.t) <- c("GeneID", "SpecieID","GOID")
 dbWriteTable(mydb, "GOGene", ccm.t, append=TRUE)
 
-ccr<- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Rat_CC.csv", sep = "\t", header = FALSE)
+ccr<- read.csv("flatfile_Rat_CC.csv", sep = "\t", header = FALSE)
+#ccr<- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Rat_CC.csv", sep = "\t", header = FALSE)
 ccr$SpecieID <- "10116"
 idx <- match(ccr$V3,fg.df$RatEntrez)
 ccr$GeneID <- fg.df$ID[idx]
@@ -555,7 +577,8 @@ head(ccr.t)
 names(ccr.t) <- c("GeneID", "SpecieID","GOID")
 dbWriteTable(mydb, "GOGene", ccr.t, append=TRUE)
 
-mfh<- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Human_MF.csv", sep = "\t", header = FALSE)
+mfh<- read.csv("flatfile_Human_MF.csv", sep = "\t", header = FALSE)
+#mfh<- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Human_MF.csv", sep = "\t", header = FALSE)
 mfh$SpecieID <- "9606"
 idx <- match(mfh$V3,fg.df$HumanEntrez)
 mfh$GeneID <- fg.df$ID[idx]
@@ -564,7 +587,8 @@ head(mfh.t)
 names(mfh.t) <- c("GeneID", "SpecieID","GOID")
 dbWriteTable(mydb, "GOGene", mfh.t, append=TRUE)
 
-mfm<- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Mouse_MF.csv", sep = "\t", header = FALSE)
+mfm<- read.csv("flatfile_Mouse_MF.csv", sep = "\t", header = FALSE)
+#mfm<- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Mouse_MF.csv", sep = "\t", header = FALSE)
 mfm$SpecieID <- "10090"
 idx <- match(mfm$V3,fg.df$MouseEntrez)
 mfm$GeneID <- fg.df$ID[idx]
@@ -573,7 +597,8 @@ head(mfm.t)
 names(mfm.t) <- c("GeneID", "SpecieID","GOID")
 dbWriteTable(mydb, "GOGene", mfm.t, append=TRUE)
 
-mfr<- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Rat_MF.csv", sep = "\t", header = FALSE)
+mfr<- read.csv("flatfile_Rat_MF.csv", sep = "\t", header = FALSE)
+#mfr<- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_Rat_MF.csv", sep = "\t", header = FALSE)
 mfr$SpecieID <- "10116"
 idx <- match(mfr$V3,fg.df$RatEntrez)
 mfr$GeneID <- fg.df$ID[idx]
@@ -585,7 +610,8 @@ dbWriteTable(mydb, "GOGene", mfr.t, append=TRUE)
 ```
 # Disease
 ```{r Add.disease}
-hdo <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_human_HDO.csv", sep = "\t", header = FALSE, stringsAsFactors = FALSE)
+hdo <- read.csv("flatfile_human_HDO.csv", sep = "\t", header = FALSE, stringsAsFactors = FALSE)
+#hdo <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_human_HDO.csv", sep = "\t", header = FALSE, stringsAsFactors = FALSE)
 hdo <- hdo[, c(1,2)]
 hdoU <- unique(hdo)
 names(hdoU) <- c("HDOID","Description")
@@ -595,7 +621,8 @@ dbWriteTable(mydb, "Disease", hdoU, append=TRUE)
 # DiseaseGene
 
 ```{r add.diseaseGene}
-hdo <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_human_HDO.csv", sep = "\t", header = FALSE, stringsAsFactors = FALSE)
+hdo <- read.csv("flatfile_human_HDO.csv", sep = "\t", header = FALSE, stringsAsFactors = FALSE)
+#hdo <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/flatfile_human_HDO.csv", sep = "\t", header = FALSE, stringsAsFactors = FALSE)
 idx <- match(hdo$V3, fg.df$HumanEntrez)
 hdo$GeneID <- fg.df$ID[idx]
 hdog <- hdo[, c(4,1)]
@@ -606,7 +633,8 @@ dbWriteTable(mydb, "DiseaseGene", hdog, append=TRUE)
 # GeneToModel
 
 ```{r add.model}
-gm <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/genes-in-models.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
+gm <- read.csv("genes-in-models.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
+#gm <- read.csv("~/Documents/Synaptic proteome paper/db/Up_March2020/genes-in-models.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
 idx <- match(gm$ENTREZ.ID, fg.df$HumanEntrez)
 gm$GeneID <- fg.df$ID[idx]
 gmg <- gm[!is.na(gm$GeneID),]
